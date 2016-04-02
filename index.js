@@ -1,13 +1,10 @@
 var moment      = require('moment');
 
 // Constructor
-var BugsDates = function(year) {
-    this.year = year
-};
+var BugsDates = function(year) {};
 
 
 var getEasterSunday = function(year) {
-    //var year = this.year;
     var a   = year % 19;
     var k   = _getK(year);
     var m   = _getM(k);

@@ -1,19 +1,8 @@
 var should      = require('chai').should();
 var moment      = require('moment');
 
-var bugs        = require('/home/nils/Dokumente/nodejs/bugs-dates/index.js');
+var bugs        = require('../index.js');
 var bunny       = new bugs(2016);
-
-
-describe('#Constructor', function() {
-
-    it('verifies constructor parameter', function() {
-        bunny.year
-            .should.equal(2016);
-    });
-
-});
-
 
 
 describe('#roseMonday', function() {
