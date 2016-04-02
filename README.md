@@ -1,5 +1,5 @@
 ## Usage
-Just generate your little easter bunny and get the dates off the moveable
+Just generate your little easter bunny and get the dates of the moveable
 holidays of a given year.
 
 ``` js
