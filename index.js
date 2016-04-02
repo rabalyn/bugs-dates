@@ -1,7 +1,13 @@
-var BugsDates = {};
+var moment      = require('moment');
+
+// Constructor
+var BugsDates = function(year) {
+    this.year = year
+};
 
 
-var _getEasterSunday = function(year) {
+var getEasterSunday = function(year) {
+    //var year = this.year;
     var a   = year % 19;
     var k   = _getK(year);
     var m   = _getM(k);
@@ -13,20 +19,18 @@ var _getEasterSunday = function(year) {
     var oe  = _getOE(og, sz);
 
     // eastern is the (og+oe)th of march
-    var os  = og + oe;
+    var os      = og + oe;
     var eastern = _normalizeDate(os, year);
-    console.log(JSON.stringify(eastern, null, 2));
-    console.log("easter sunday in " + year + " is the " );
 
     return eastern;
 }
 
 var _getK = function(year) {
-    return year / 100;
+    return parseInt(year / 100);
 }
 
 var _getM = function(x) {
-    return (15 + (3 * x + 3) / 4 - (8 * x + 13) / 25);
+    return (15 + parseInt((3 * x + 3) / 4) - parseInt((8 * x + 13) / 25));
 }
 
 var _getD = function(a, m) {
@@ -34,11 +38,11 @@ var _getD = function(a, m) {
 }
 
 var _getS = function(k) {
-    return (2 - (3 * k + 3) / 4);
+    return (2 - parseInt((3 * k + 3) / 4));
 }
 
 var _getR = function(d, a) {
-    return ((d + a / 11) / 29);
+    return parseInt(parseInt(d + a / 11) / 29);
 }
 
 var _getOG = function(d, r) {
@@ -46,7 +50,7 @@ var _getOG = function(d, r) {
 }
 
 var _getSZ = function(x, s) {
-    return (7 - (x + x / 4 + s) % 7);
+    return (7 - (x + parseInt(x / 4) + s) % 7);
 }
 
 var _getOE = function(og, sz) {
@@ -54,21 +58,83 @@ var _getOE = function(og, sz) {
 }
 
 var _normalizeDate = function(nthMarch, year) {
-    var day = nthMarch;
-    if(day < 31) {
-        var date = new Date(year, 2, day);
+    var day     = nthMarch;
+    var date    = '';
+
+    if (day <= 31) {
+        date = new moment(year+"-03-"+day, "YYYY-MM-DD");
     } else {
         var aprilDay = day % 31;
-        var date = new Date(year, 3, aprilDay);
+        if(aprilDay < 10) aprilDay = "0"+aprilDay;
+        date = new moment(year+"-04-"+aprilDay, "YYYY-MM-DD");
     }
-    console.log("fooo")
-    console.log( (new Date(date.getFullYear(), date.getMonth()+1, date.getDay() )) );
-    return date;
+
+    return date.toString();
 }
 
+var _addDays = function (date, days) {
+    var result = new Date(date);
+    result.setDate(result.getDate() + days);
+    return result;
+}
 
-var easterSunday = _getEasterSunday(2016);
+var getRoseMonday = function(easterSunday) {
+    var roseMonday = _addDays(easterSunday, -48);
 
-BugsDates.easterSunday = easterSunday;
+    return moment(roseMonday).toString();
+}
+
+var getAshWednesday = function(easterSunday) {
+    var ashWednesday = _addDays(easterSunday, -46);
+
+    return moment(ashWednesday).toString();
+}
+
+var getGoodFriday = function(easterSunday) {
+    var goodFriday = _addDays(easterSunday, -2);
+
+    return moment(goodFriday).toString();
+}
+
+var getEasterMonday = function(date) {
+    var easterMonday = _addDays(date, 1);
+    return moment(easterMonday).toString();
+}
+
+var getAscensionDay = function(easterSunday) {
+    var ascensionDay = _addDays(easterSunday, 39);
+
+    return moment(ascensionDay).toString();
+}
+
+var getWhitsunSunday = function(easterSunday) {
+    var whitsunSunday = _addDays(easterSunday, 49);
+
+    return moment(whitsunSunday).toString();
+}
+
+var getWhitsunMonday = function(easterSunday) {
+    var whitsunMonday = _addDays(easterSunday, 50);
+
+    return moment(whitsunMonday).toString();
+}
+
+var getCorpusChrisi = function(easterSunday) {
+    var corpusChristi = _addDays(easterSunday, 60);
+
+    return moment(corpusChristi).toString();
+}
+
+BugsDates.prototype = {
+    getRoseMonday: getRoseMonday,
+    getAshWednesday: getAshWednesday,
+    getEasterSunday: getEasterSunday,
+    getEasterMonday: getEasterMonday,
+    getGoodFriday: getGoodFriday,
+    getAscensionDay: getAscensionDay,
+    getWhitsunSunday: getWhitsunSunday,
+    getWhitsunMonday: getWhitsunMonday,
+    getCorpusChrisi: getCorpusChrisi
+}
 
 module.exports = BugsDates;
