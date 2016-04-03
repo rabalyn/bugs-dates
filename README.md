@@ -3,8 +3,8 @@ Just generate your little easter bunny and get the dates of the moveable
 holidays of a given year.
 
 ``` js
-var bugs        = require('../index.js');
-var bunny       = new bugs(2016);
+var bugs        = require('bugs-dates');
+var bunny       = new bugs();
 ```
 
 The dates are generated with [moment](http://momentjs.com/docs/) and are returned
