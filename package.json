@@ -23,8 +23,7 @@
   "author": "Nils Mundhenke (@rabalyn)",
   "repository": {
       "type": "git",
-      "url": "https://github.com/rabalyn/bugs-dates.git",
-
+      "url": "https://github.com/rabalyn/bugs-dates.git"
   },
   "license": "MIT",
   "devDependencies": {
