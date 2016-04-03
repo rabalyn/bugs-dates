@@ -1,6 +1,6 @@
 {
   "name": "bugs-dates",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Get all moveable and non moveable holidays in a given year.",
   "main": "index.js",
   "scripts": {
@@ -18,12 +18,11 @@
     "whitsun sunday",
     "whitsun monday",
     "corpus christi"
-
   ],
   "author": "Nils Mundhenke (@rabalyn)",
   "repository": {
-      "type": "git",
-      "url": "https://github.com/rabalyn/bugs-dates.git"
+    "type": "git",
+    "url": "https://github.com/rabalyn/bugs-dates.git"
   },
   "license": "MIT",
   "devDependencies": {
