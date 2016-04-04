@@ -1,57 +1,30 @@
 var moment      = require('moment');
 
 // Constructor
-var BugsDates = function(year) {};
+var BugsDates = function() {};
 
 
 var getEasterSunday = function(year) {
+    /*
+    **  Calculate easter sunday by usage of the supplemented
+    **  easter calculation by Gauss.
+    **  (https://de.wikipedia.org/wiki/Gau%C3%9Fsche_Osterformel#Eine_erg.C3.A4nzte_Osterformel)
+    */
     var a   = year % 19;
-    var k   = _getK(year);
-    var m   = _getM(k);
-    var d   = _getD(a, m);
-    var s   = _getS(k);
-    var r   = _getR(d, a);
-    var og  = _getOG(d, r);
-    var sz  = _getSZ(year, s);
-    var oe  = _getOE(og, sz);
+    var k   = parseInt(year / 100);
+    var m   = (15 + parseInt((3 * k + 3) / 4) - parseInt((8 * k + 13) / 25));
+    var d   = ((19 * a + m) % 30);
+    var s   = (2 - parseInt((3 * k + 3) / 4));
+    var r   = parseInt(parseInt(d + a / 11) / 29);
+    var og  = (21 + d - r);
+    var sz  = (7 - (year + parseInt(year / 4) + s) % 7);
+    var oe  = (7 - (og - sz) % 7);
 
     // eastern is the (og+oe)th of march
     var os      = og + oe;
     var eastern = _normalizeDate(os, year);
 
     return eastern;
-}
-
-var _getK = function(year) {
-    return parseInt(year / 100);
-}
-
-var _getM = function(x) {
-    return (15 + parseInt((3 * x + 3) / 4) - parseInt((8 * x + 13) / 25));
-}
-
-var _getD = function(a, m) {
-    return ((19 * a + m) % 30);
-}
-
-var _getS = function(k) {
-    return (2 - parseInt((3 * k + 3) / 4));
-}
-
-var _getR = function(d, a) {
-    return parseInt(parseInt(d + a / 11) / 29);
-}
-
-var _getOG = function(d, r) {
-    return (21 + d - r);
-}
-
-var _getSZ = function(x, s) {
-    return (7 - (x + parseInt(x / 4) + s) % 7);
-}
-
-var _getOE = function(og, sz) {
-    return (7 - (og - sz) % 7);
 }
 
 var _normalizeDate = function(nthMarch, year) {
@@ -73,6 +46,28 @@ var _addDays = function (date, days) {
     var result = new Date(date);
     result.setDate(result.getDate() + days);
     return result;
+}
+
+var getNewYear = function(year) {
+    if( typeof year == "number") {
+        try {
+            var newYear = new moment({
+                year: year,
+                day: 1,
+                month: 0
+            });
+
+            return newYear.toString();
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    return {
+        error: 'invalid year',
+        errorCode: 1
+    }
 }
 
 var getRoseMonday = function(easterSunday) {
@@ -116,13 +111,87 @@ var getWhitsunMonday = function(easterSunday) {
     return moment(whitsunMonday).toString();
 }
 
-var getCorpusChrisi = function(easterSunday) {
+var getCorpusChristi = function(easterSunday) {
     var corpusChristi = _addDays(easterSunday, 60);
 
     return moment(corpusChristi).toString();
 }
 
+var _setDaysOfYear = function(date) {
+
+    if( date === null || date === undefined || date === '') {
+        return false;
+    }
+
+    if( ! date._isAMomentObject) {
+        try {
+            date = new Date(date);
+            date = new moment(date)
+        } catch (err) {
+            return false;
+        }
+
+        var roseMondayOfYear = new Date(getRoseMonday(date.year()));
+        roseMondayOfYear = new moment(roseMondayOfYear);
+
+        if(date.month() === roseMondayOfYear.month() && date.day() === roseMondayOfYear.day()) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+var isRoseMonday = function(date) {
+    if( date === null || date === undefined || date === '') {
+        return false;
+    }
+
+    if( ! date._isAMomentObject) {
+        try {
+            date = new Date(date);
+            date = new moment(date)
+        } catch (err) {
+            return false;
+        }
+
+        var roseMondayOfYear = new Date(getRoseMonday(date.year()));
+        roseMondayOfYear = new moment(roseMondayOfYear);
+
+        if(date.month() === roseMondayOfYear.month() && date.day() === roseMondayOfYear.day()) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+var isEasterSunday = function(date) {
+    if( date !== null && date !== undefined && ! date._isAMomentObject) {
+        try {
+            date = new moment(date, "YYYY-MM-DD");
+        } catch(err) {
+            return false;
+        }
+    }
+
+    if(date && date._isAMomentObject) {
+        var year                = date.year();
+        var foo                 = new Date(getEasterSunday(year));
+        var easterSundayOfYear  = new moment(foo);
+
+        if( easterSundayOfYear.month() === date.month() &&
+            easterSundayOfYear.day() === date.day() )
+        {
+                return true;
+        }
+    }
+
+    return false;
+}
+
 BugsDates.prototype = {
+    getNewYear : getNewYear,
     getRoseMonday: getRoseMonday,
     getAshWednesday: getAshWednesday,
     getEasterSunday: getEasterSunday,
@@ -131,7 +200,9 @@ BugsDates.prototype = {
     getAscensionDay: getAscensionDay,
     getWhitsunSunday: getWhitsunSunday,
     getWhitsunMonday: getWhitsunMonday,
-    getCorpusChrisi: getCorpusChrisi
+    getCorpusChristi: getCorpusChristi,
+    isRoseMonday: isRoseMonday,
+    isEasterSunday: isEasterSunday
 }
 
 module.exports = BugsDates;

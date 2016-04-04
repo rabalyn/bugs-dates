@@ -1,9 +1,27 @@
-var should      = require('chai').should();
+var chai        = require('chai');
+var should      = chai.should();
 var moment      = require('moment');
 
 var bugs        = require('../index.js');
 var bunny       = new bugs(2016);
 
+
+describe('#newYear', function() {
+    it('verifies new year date for 2010', function() {
+        bunny.getNewYear(2010)
+            .should.equal(new moment("2010-01-01", "YYYY-MM-DD").toString());
+    });
+
+    it('verifies correct error object for invalid year (some string)', function() {
+        bunny.getNewYear('foo')
+            .should.have.all.keys('error', 'errorCode');
+    });
+
+    it('verifies correct error object for invalid year (null)', function() {
+        bunny.getNewYear(null)
+            .should.have.all.keys('error', 'errorCode');
+    });
+});
 
 describe('#roseMonday', function() {
 
@@ -145,7 +163,76 @@ describe('#whitsunMonday', function() {
 describe('#corpusChristi', function() {
 
     it('verifies date of corpus Christi for 2016', function() {
-        bunny.getCorpusChrisi(bunny.getEasterSunday(2016))
+        bunny.getCorpusChristi(bunny.getEasterSunday(2016))
             .should.equal(moment("2016-05-26", "YYYY-MM-DD").toString());
+    });
+});
+
+describe('#isEasterSunday', function() {
+
+    it('verifies if a given date is eastersunday (date string, false)', function() {
+        bunny.isEasterSunday("2000-04-13")
+            .should.equal(false);
+    });
+
+    it('verifies if a given date is eastersunday (moment object, false)', function() {
+        var date = new moment("2000-04-13", "YYYY-MM-DD");
+        bunny.isEasterSunday(date)
+            .should.equal(false);
+    });
+
+    it('verifies if a given date is eastersunday (date string, true)', function() {
+        bunny.isEasterSunday("2000-04-23")
+            .should.equal(true);
+    });
+
+    it('verifies if a given date is eastersunday (moment object, true)', function() {
+        var date = new moment("2000-04-23", "YYYY-MM-DD");
+        bunny.isEasterSunday(date)
+            .should.equal(true);
+    });
+
+    it('verifies if a given date is eastersunday (undefined)', function() {
+        bunny.isEasterSunday(undefined)
+            .should.equal(false);
+    });
+
+    it('verifies if a given date is eastersunday (null)', function() {
+        bunny.isEasterSunday(null)
+            .should.equal(false);
+    });
+
+    it('verifies if a given date is eastersunday ("foo")', function() {
+        bunny.isEasterSunday("foo")
+        .should.equal(false);
+    });
+
+    it('verifies if a given date is eastersunday ("")', function() {
+        bunny.isEasterSunday('')
+        .should.equal(false);
+    });
+
+});
+
+describe('#isRoseMonday', function() {
+
+    it('verifies if date is roseMonday', function() {
+        bunny.isRoseMonday("01.03.1927")
+            .should.equal(false);
+    });
+
+    it('verifies if date is roseMonday', function() {
+        bunny.isRoseMonday(undefined)
+            .should.equal(false);
+    });
+
+    it('verifies if date is roseMonday', function() {
+        bunny.isRoseMonday(null)
+            .should.equal(false);
+    });
+
+    it('verifies if date is roseMonday', function() {
+        bunny.isRoseMonday('')
+            .should.equal(false);
     });
 });

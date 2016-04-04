@@ -12,6 +12,7 @@ to you as strings.
 
 ``` js
 var eastersunday = bunny.getEasterSunday(2016);   // 'Sun Mar 27 2016 00:00:00 GMT+0100'
+var rosemonday = bunny.getRoseMonday(eastersunday); //
 ```
 
 ### Methods
@@ -25,6 +26,12 @@ BugsDates.prototype = {
     getAscensionDay: getAscensionDay,
     getWhitsunSunday: getWhitsunSunday,
     getWhitsunMonday: getWhitsunMonday,
-    getCorpusChrisi: getCorpusChrisi
+    getCorpusChrisi: getCorpusChristi
 }
 ```
+
+### Error Codes
+| Error Code  | Description  |
+|---|---|
+| 1  | invalid year as input |
+|   |   |
