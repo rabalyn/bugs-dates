@@ -11,13 +11,16 @@ The dates are generated with [moment](http://momentjs.com/docs/) and are returne
 to you as strings.
 
 ``` js
-var eastersunday = bunny.getEasterSunday(2016);   // 'Sun Mar 27 2016 00:00:00 GMT+0100'
-var rosemonday = bunny.getRoseMonday(eastersunday); //
+var eastersunday    = bunny.getEasterSunday(2016);          // 'Sun Mar 27 2016 00:00:00 GMT+0100'
+var rosemonday      = bunny.getRoseMonday(eastersunday);    // 'Mon Feb 08 2016 00:00:00 GMT+0100'
+var isRoseMonday    = bunny.isRoseMonday('2016-02-08');     // true
+var noRoseMonday    = bunny.isRoseMonday('2016-01-21');     // false
 ```
 
 ### Methods
 ``` js
 BugsDates.prototype = {
+    getNewYear : getNewYear,
     getRoseMonday: getRoseMonday,
     getAshWednesday: getAshWednesday,
     getEasterSunday: getEasterSunday,
@@ -26,7 +29,9 @@ BugsDates.prototype = {
     getAscensionDay: getAscensionDay,
     getWhitsunSunday: getWhitsunSunday,
     getWhitsunMonday: getWhitsunMonday,
-    getCorpusChrisi: getCorpusChristi
+    getCorpusChristi: getCorpusChristi,
+    isRoseMonday: isRoseMonday,
+    isEasterSunday: isEasterSunday
 }
 ```
 
@@ -34,4 +39,3 @@ BugsDates.prototype = {
 | Error Code  | Description  |
 |---|---|
 | 1  | invalid year as input |
-|   |   |

@@ -28,6 +28,7 @@ describe('#roseMonday', function() {
     it('verifies date of rose monday for 1923', function() {
         bunny.getRoseMonday(bunny.getEasterSunday(1923))
             .should.equal(moment("1923-02-12", "YYYY-MM-DD").toString());
+        console.log(bunny.getRoseMonday(bunny.getEasterSunday(2016)))
     });
 
     it('verifies date of rose monday for 1954', function() {
