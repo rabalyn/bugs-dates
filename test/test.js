@@ -23,12 +23,28 @@ describe('#newYear', function() {
     });
 });
 
+describe('#epiphany', function() {
+    it('verifies Epiphany date for 2010', function() {
+        bunny.getEpiphany(2010)
+            .should.equal(new moment("2010-01-06", "YYYY-MM-DD").toString());
+    });
+
+    it('verifies correct error object for invalid year (some string)', function() {
+        bunny.getEpiphany('foo')
+            .should.have.all.keys('error', 'errorCode');
+    });
+
+    it('verifies correct error object for invalid year (null)', function() {
+        bunny.getEpiphany(null)
+            .should.have.all.keys('error', 'errorCode');
+    });
+});
+
 describe('#roseMonday', function() {
 
     it('verifies date of rose monday for 1923', function() {
         bunny.getRoseMonday(bunny.getEasterSunday(1923))
             .should.equal(moment("1923-02-12", "YYYY-MM-DD").toString());
-        console.log(bunny.getRoseMonday(bunny.getEasterSunday(2016)))
     });
 
     it('verifies date of rose monday for 1954', function() {
@@ -80,6 +96,19 @@ describe('#ashWednesday', function() {
     });
 });
 
+describe('#goodFriday', function() {
+
+    it('verifies date of good friday for 1923', function() {
+        bunny.getGoodFriday(bunny.getEasterSunday(1923))
+            .should.equal(moment("1923-03-30", "YYYY-MM-DD").toString());
+    });
+
+    it('verifies date of good friday for 2016', function() {
+        bunny.getGoodFriday(bunny.getEasterSunday(2016))
+            .should.equal(moment("2016-03-25", "YYYY-MM-DD").toString());
+    });
+});
+
 describe('#easterSunday', function() {
 
     it('verifies date for 1923', function() {
@@ -123,17 +152,20 @@ describe('#easterMonday', function() {
     });
 });
 
-
-describe('#goodFriday', function() {
-
-    it('verifies date of good friday for 1923', function() {
-        bunny.getGoodFriday(bunny.getEasterSunday(1923))
-            .should.equal(moment("1923-03-30", "YYYY-MM-DD").toString());
+describe('#mayDay', function() {
+    it('verifies May Day date for 2010', function() {
+        bunny.getMayDay(2010)
+            .should.equal(new moment("2010-05-01", "YYYY-MM-DD").toString());
     });
 
-    it('verifies date of good friday for 2016', function() {
-        bunny.getGoodFriday(bunny.getEasterSunday(2016))
-            .should.equal(moment("2016-03-25", "YYYY-MM-DD").toString());
+    it('verifies correct error object for invalid year (some string)', function() {
+        bunny.getMayDay('foo')
+            .should.have.all.keys('error', 'errorCode');
+    });
+
+    it('verifies correct error object for invalid year (null)', function() {
+        bunny.getMayDay(null)
+            .should.have.all.keys('error', 'errorCode');
     });
 });
 
@@ -235,5 +267,161 @@ describe('#isRoseMonday', function() {
     it('verifies if date is roseMonday', function() {
         bunny.isRoseMonday('')
             .should.equal(false);
+    });
+});
+
+describe('#assumptionDay', function() {
+    it('verifies Assumption Day date for 2010', function() {
+        bunny.getAssumptionDay(2010)
+            .should.equal(new moment("2010-08-15", "YYYY-MM-DD").toString());
+    });
+
+    it('verifies correct error object for invalid year (some string)', function() {
+        bunny.getAssumptionDay('foo')
+            .should.have.all.keys('error', 'errorCode');
+    });
+
+    it('verifies correct error object for invalid year (null)', function() {
+        bunny.getAssumptionDay(null)
+            .should.have.all.keys('error', 'errorCode');
+    });
+});
+
+describe('#germanUnificationDay', function() {
+    it('verifies German Unification Day date for 2010', function() {
+        bunny.getGermanUnificationDay(2010)
+            .should.equal(new moment("2010-10-03", "YYYY-MM-DD").toString());
+    });
+
+    it('verifies correct error object for invalid year (some string)', function() {
+        bunny.getGermanUnificationDay('foo')
+            .should.have.all.keys('error', 'errorCode');
+    });
+
+    it('verifies correct error object for invalid year (null)', function() {
+        bunny.getGermanUnificationDay(null)
+            .should.have.all.keys('error', 'errorCode');
+    });
+});
+
+describe('#reformationDay', function() {
+    it('verifies Reformation Day date for 2010', function() {
+        bunny.getReformationDay(2010)
+            .should.equal(new moment("2010-10-31", "YYYY-MM-DD").toString());
+    });
+
+    it('verifies correct error object for invalid year (some string)', function() {
+        bunny.getReformationDay('foo')
+            .should.have.all.keys('error', 'errorCode');
+    });
+
+    it('verifies correct error object for invalid year (null)', function() {
+        bunny.getReformationDay(null)
+            .should.have.all.keys('error', 'errorCode');
+    });
+});
+
+describe('#allHallows', function() {
+    it('verifies All Hallows date for 2010', function() {
+        bunny.getAllHallows(2010)
+            .should.equal(new moment("2010-11-01", "YYYY-MM-DD").toString());
+    });
+
+    it('verifies correct error object for invalid year (some string)', function() {
+        bunny.getAllHallows('foo')
+            .should.have.all.keys('error', 'errorCode');
+    });
+
+    it('verifies correct error object for invalid year (null)', function() {
+        bunny.getAllHallows(null)
+            .should.have.all.keys('error', 'errorCode');
+    });
+});
+
+describe('#dayOfRepentance', function() {
+    it('verifies Day Of Repentance date for 2015', function() {
+        bunny.getDayOfRepentance(2015)
+            .should.equal(new moment("2015-11-18", "YYYY-MM-DD").toString());
+    });
+
+    it('verifies Day Of Repentance date for 2016', function() {
+        bunny.getDayOfRepentance(2016)
+            .should.equal(new moment("2016-11-16", "YYYY-MM-DD").toString());
+    });
+
+    it('verifies Day Of Repentance date for 2017', function() {
+        bunny.getDayOfRepentance(2017)
+            .should.equal(new moment("2017-11-22", "YYYY-MM-DD").toString());
+    });
+
+    it('verifies Day Of Repentance date for 2018', function() {
+        bunny.getDayOfRepentance(2018)
+            .should.equal(new moment("2018-11-21", "YYYY-MM-DD").toString());
+    });
+
+    it('verifies Day Of Repentance date for 2019', function() {
+        bunny.getDayOfRepentance(2019)
+            .should.equal(new moment("2019-11-20", "YYYY-MM-DD").toString());
+    });
+
+    it('verifies correct error object for invalid year (some string)', function() {
+        bunny.getDayOfRepentance('foo')
+            .should.have.all.keys('error', 'errorCode');
+    });
+
+    it('verifies correct error object for invalid year (null)', function() {
+        bunny.getDayOfRepentance(null)
+            .should.have.all.keys('error', 'errorCode');
+    });
+});
+
+describe('#christmaseve', function() {
+    it('verifies Christmas Eve date for 2010', function() {
+        bunny.getChristmasEve(2010)
+            .should.equal(new moment("2010-12-24", "YYYY-MM-DD").toString());
+    });
+
+    it('verifies correct error object for invalid year (some string)', function() {
+        bunny.getChristmasEve('foo')
+            .should.have.all.keys('error', 'errorCode');
+    });
+
+    it('verifies correct error object for invalid year (null)', function() {
+        bunny.getChristmasEve(null)
+            .should.have.all.keys('error', 'errorCode');
+    });
+});
+
+describe('#christmasDay', function() {
+    it('verifies Christmas Day date for 2010', function() {
+        bunny.getChristmasDay(2010)
+            .should.equal(new moment("2010-12-25", "YYYY-MM-DD").toString());
+    });
+
+    it('verifies correct error object for invalid year (some string)', function() {
+        bunny.getChristmasDay('foo')
+            .should.have.all.keys('error', 'errorCode');
+    });
+
+    it('verifies correct error object for invalid year (null)', function() {
+        bunny.getChristmasDay(null)
+            .should.have.all.keys('error', 'errorCode');
+    });
+});
+
+describe('#stStephensDay', function() {
+    it('verifies Christmas Eve date for 2010', function() {
+        bunny.getStStephensDay(2010)
+            .should.equal(new moment("2010-12-26", "YYYY-MM-DD").toString());
+    });
+
+    it('verifies correct error object for invalid year (some string)', function() {
+        bunny.getStStephensDay('foo')
+            .should.have.all.keys('error', 'errorCode');
+    });
+
+    it('verifies correct error object for invalid year (null)', function() {
+        bunny.getStStephensDay(null)
+            .should.have.all.keys('error', 'errorCode');
     });
 });

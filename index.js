@@ -70,6 +70,28 @@ var getNewYear = function(year) {
     }
 }
 
+var getEpiphany = function(year) {
+    if( typeof year == "number") {
+        try {
+            var epiphany = new moment({
+                year: year,
+                day: 6,
+                month: 0
+            });
+
+            return epiphany.toString();
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    return {
+        error: 'invalid year',
+        errorCode: 1
+    }
+}
+
 var getRoseMonday = function(easterSunday) {
     var roseMonday = _addDays(easterSunday, -48);
 
@@ -91,6 +113,28 @@ var getGoodFriday = function(easterSunday) {
 var getEasterMonday = function(date) {
     var easterMonday = _addDays(date, 1);
     return moment(easterMonday).toString();
+}
+
+var getMayDay = function(year) {
+    if( typeof year == "number") {
+        try {
+            var mayDay = new moment({
+                year: year,
+                day: 1,
+                month: 4
+            });
+
+            return mayDay.toString();
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    return {
+        error: 'invalid year',
+        errorCode: 1
+    }
 }
 
 var getAscensionDay = function(easterSunday) {
@@ -134,12 +178,199 @@ var _setDaysOfYear = function(date) {
         var roseMondayOfYear = new Date(getRoseMonday(date.year()));
         roseMondayOfYear = new moment(roseMondayOfYear);
 
-        if(date.month() === roseMondayOfYear.month() && date.day() === roseMondayOfYear.day()) {
+        if(date.month() === roseMondayOfYear.month() && date.date() === roseMondayOfYear.date()) {
             return true;
         }
     }
 
     return false;
+}
+
+var getAssumptionDay = function(year) {
+    if( typeof year == "number") {
+        try {
+            var assumptionDay = new moment({
+                year: year,
+                day: 15,
+                month: 7
+            });
+
+            return assumptionDay.toString();
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    return {
+        error: 'invalid year',
+        errorCode: 1
+    }
+}
+
+var getGermanUnificationDay = function(year) {
+    if( typeof year == "number") {
+        try {
+            var germanUnificationDay = new moment({
+                year: year,
+                day: 3,
+                month: 9
+            });
+
+            return germanUnificationDay.toString();
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    return {
+        error: 'invalid year',
+        errorCode: 1
+    }
+}
+
+var getReformationDay = function(year) {
+    if( typeof year == "number") {
+        try {
+            var reformationDay = new moment({
+                year: year,
+                day: 31,
+                month: 9
+            });
+
+            return reformationDay.toString();
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    return {
+        error: 'invalid year',
+        errorCode: 1
+    }
+}
+
+var getAllHallows = function(year) {
+    if( typeof year == "number") {
+        try {
+            var allHallows = new moment({
+                year: year,
+                day: 1,
+                month: 10
+            });
+
+            return allHallows.toString();
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    return {
+        error: 'invalid year',
+        errorCode: 1
+    }
+}
+
+/*
+**  Wednesday before the 23rd of November
+**  https://de.wikipedia.org/wiki/Totensonntag
+**  https://de.wikipedia.org/wiki/Bu%C3%9F-_und_Bettag
+**  https://en.wikipedia.org/wiki/Bu%C3%9F-_und_Bettag
+*/
+var getDayOfRepentance = function(year) {
+    if( typeof year == "number") {
+        try {
+            var nov23rd = new moment({
+                year: year,
+                day: 23,
+                month: 10
+            });
+
+            do {
+                var dayOfRepentance = nov23rd.add(-1, "d");
+
+            } while (dayOfRepentance.day() !== 3);
+
+            return dayOfRepentance.toString();
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    return {
+        error: 'invalid year',
+        errorCode: 1
+    }
+}
+
+var getChristmasEve = function(year) {
+    if( typeof year == "number") {
+        try {
+            var christmasEve = new moment({
+                year: year,
+                day: 24,
+                month: 11
+            });
+
+            return christmasEve.toString();
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    return {
+        error: 'invalid year',
+        errorCode: 1
+    }
+}
+
+var getChristmasDay = function(year) {
+    if( typeof year == "number") {
+        try {
+            var christmasDay = new moment({
+                year: year,
+                day: 25,
+                month: 11
+            });
+
+            return christmasDay.toString();
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    return {
+        error: 'invalid year',
+        errorCode: 1
+    }
+}
+
+var getStStephensDay = function(year) {
+    if( typeof year == "number") {
+        try {
+            var stStephensDay = new moment({
+                year: year,
+                day: 26,
+                month: 11
+            });
+
+            return stStephensDay.toString();
+
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    return {
+        error: 'invalid year',
+        errorCode: 1
+    }
 }
 
 var isRoseMonday = function(date) {
@@ -158,7 +389,7 @@ var isRoseMonday = function(date) {
         var roseMondayOfYear = new Date(getRoseMonday(date.year()));
         roseMondayOfYear = new moment(roseMondayOfYear);
 
-        if(date.month() === roseMondayOfYear.month() && date.day() === roseMondayOfYear.day()) {
+        if(date.month() === roseMondayOfYear.month() && date.date() === roseMondayOfYear.date()) {
             return true;
         }
     }
@@ -175,13 +406,13 @@ var isEasterSunday = function(date) {
         }
     }
 
-    if(date && date._isAMomentObject) {
+    if(date && moment.isMoment(date)) {
         var year                = date.year();
         var foo                 = new Date(getEasterSunday(year));
         var easterSundayOfYear  = new moment(foo);
 
         if( easterSundayOfYear.month() === date.month() &&
-            easterSundayOfYear.day() === date.day() )
+            easterSundayOfYear.date() === date.date() )
         {
                 return true;
         }
@@ -190,17 +421,32 @@ var isEasterSunday = function(date) {
     return false;
 }
 
+/*
+**  list of dates I wanna implement:
+**  https://de.wikipedia.org/wiki/Gesetzliche_Feiertage_in_Deutschland
+**  https://en.wikipedia.org/wiki/Public_holidays_in_Germany
+*/
 BugsDates.prototype = {
     getNewYear : getNewYear,
+    getEpiphany: getEpiphany,
     getRoseMonday: getRoseMonday,
     getAshWednesday: getAshWednesday,
     getEasterSunday: getEasterSunday,
     getEasterMonday: getEasterMonday,
     getGoodFriday: getGoodFriday,
+    getMayDay: getMayDay,
     getAscensionDay: getAscensionDay,
     getWhitsunSunday: getWhitsunSunday,
     getWhitsunMonday: getWhitsunMonday,
     getCorpusChristi: getCorpusChristi,
+    getAssumptionDay: getAssumptionDay,
+    getGermanUnificationDay: getGermanUnificationDay,
+    getReformationDay: getReformationDay,
+    getAllHallows, getAllHallows,
+    getDayOfRepentance: getDayOfRepentance,
+    getChristmasEve: getChristmasEve,
+    getChristmasDay: getChristmasDay,
+    getStStephensDay: getStStephensDay,
     isRoseMonday: isRoseMonday,
     isEasterSunday: isEasterSunday
 }
