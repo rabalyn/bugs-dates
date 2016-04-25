@@ -10,14 +10,16 @@ var bunny       = new bugs();
 The dates are generated with [moment](http://momentjs.com/docs/) and are returned
 to you as strings.
 
-Easter related methods need a date as parameter, except
-getEasterSunday. All the fix holidays get a year.
+~~Easter related methods need a date as parameter, except
+getEasterSunday. All the fix holidays get a year.~~
+~~Inconsistence, that will be fixed in one of the next updates.~~
 
-Inconsistence, that will be fixed in one of the next updates.
+All methods are now called with a given year. Validation and tests are missing
+for this change.
 
 ``` js
 var eastersunday    = bunny.getEasterSunday(2016);          // 'Sun Mar 27 2016 00:00:00 GMT+0100'
-var rosemonday      = bunny.getRoseMonday(eastersunday);    // 'Mon Feb 08 2016 00:00:00 GMT+0100'
+var rosemonday      = bunny.getRoseMonday(2016);            // 'Mon Feb 08 2016 00:00:00 GMT+0100'
 var isRoseMonday    = bunny.isRoseMonday('2016-02-08');     // true
 var noRoseMonday    = bunny.isRoseMonday('2016-01-21');     // false
 ```

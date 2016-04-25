@@ -43,32 +43,32 @@ describe('#epiphany', function() {
 describe('#roseMonday', function() {
 
     it('verifies date of rose monday for 1923', function() {
-        bunny.getRoseMonday(bunny.getEasterSunday(1923))
+        bunny.getRoseMonday(1923)
             .should.equal(moment("1923-02-12", "YYYY-MM-DD").toString());
     });
 
     it('verifies date of rose monday for 1954', function() {
-        bunny.getRoseMonday(bunny.getEasterSunday(1954))
+        bunny.getRoseMonday((1954))
             .should.equal(moment("1954-03-01", "YYYY-MM-DD").toString());
     });
 
     it('verifies date of rose monday for 1981', function() {
-        bunny.getRoseMonday(bunny.getEasterSunday(1981))
+        bunny.getRoseMonday((1981))
             .should.equal(moment("1981-03-02", "YYYY-MM-DD").toString());
     });
 
     it('verifies date of rose monday for 2014', function() {
-        bunny.getRoseMonday(bunny.getEasterSunday(2014))
+        bunny.getRoseMonday((2014))
             .should.equal(moment("2014-03-03", "YYYY-MM-DD").toString());
     });
 
     it('verifies date of rose monday for 2015', function() {
-        bunny.getRoseMonday(bunny.getEasterSunday(2015))
+        bunny.getRoseMonday((2015))
             .should.equal(moment("2015-02-16", "YYYY-MM-DD").toString());
     });
 
     it('verifies date of rose monday for 2016', function() {
-        bunny.getRoseMonday(bunny.getEasterSunday(2016))
+        bunny.getRoseMonday((2016))
             .should.equal(moment("2016-02-08", "YYYY-MM-DD").toString());
     });
 });
@@ -76,22 +76,22 @@ describe('#roseMonday', function() {
 describe('#ashWednesday', function() {
 
     it('verifies date of ash wednesday for 1923', function() {
-        bunny.getAshWednesday(bunny.getEasterSunday(1923))
+        bunny.getAshWednesday((1923))
         .should.equal(moment("1923-02-14", "YYYY-MM-DD").toString());
     });
 
     it('verifies date of ash wednesday for 1954', function() {
-        bunny.getAshWednesday(bunny.getEasterSunday(1954))
+        bunny.getAshWednesday((1954))
         .should.equal(moment("1954-03-03", "YYYY-MM-DD").toString());
     });
 
     it('verifies date of ash wednesday for 1981', function() {
-        bunny.getAshWednesday(bunny.getEasterSunday(1981))
+        bunny.getAshWednesday((1981))
         .should.equal(moment("1981-03-04", "YYYY-MM-DD").toString());
     });
 
     it('verifies date of ash wednesday for 2016', function() {
-        bunny.getAshWednesday(bunny.getEasterSunday(2016))
+        bunny.getAshWednesday((2016))
         .should.equal(moment("2016-02-10", "YYYY-MM-DD").toString());
     });
 });
@@ -99,12 +99,12 @@ describe('#ashWednesday', function() {
 describe('#goodFriday', function() {
 
     it('verifies date of good friday for 1923', function() {
-        bunny.getGoodFriday(bunny.getEasterSunday(1923))
+        bunny.getGoodFriday((1923))
             .should.equal(moment("1923-03-30", "YYYY-MM-DD").toString());
     });
 
     it('verifies date of good friday for 2016', function() {
-        bunny.getGoodFriday(bunny.getEasterSunday(2016))
+        bunny.getGoodFriday((2016))
             .should.equal(moment("2016-03-25", "YYYY-MM-DD").toString());
     });
 });
@@ -147,7 +147,7 @@ describe('#easterSunday', function() {
 describe('#easterMonday', function() {
 
     it('verifies date of easter monday for 2016', function() {
-        bunny.getEasterMonday(bunny.getEasterSunday(2016))
+        bunny.getEasterMonday((2016))
             .should.equal(moment("2016-03-28", "YYYY-MM-DD").toString());
     });
 });
@@ -172,7 +172,7 @@ describe('#mayDay', function() {
 describe('#ascensionDay', function() {
 
     it('verifies date of ascension day for 2016', function() {
-        bunny.getAscensionDay(bunny.getEasterSunday(2016))
+        bunny.getAscensionDay((2016))
             .should.equal(moment("2016-05-05", "YYYY-MM-DD").toString());
     });
 });
@@ -180,7 +180,7 @@ describe('#ascensionDay', function() {
 describe('#whitsunSunday', function() {
 
     it('verifies date of whitsun sunday for 2016', function() {
-        bunny.getWhitsunSunday(bunny.getEasterSunday(2016))
+        bunny.getWhitsunSunday((2016))
             .should.equal(moment("2016-05-15", "YYYY-MM-DD").toString());
     });
 });
@@ -188,7 +188,7 @@ describe('#whitsunSunday', function() {
 describe('#whitsunMonday', function() {
 
     it('verifies date of whitsun monday for 2016', function() {
-        bunny.getWhitsunMonday(bunny.getEasterSunday(2016))
+        bunny.getWhitsunMonday((2016))
             .should.equal(moment("2016-05-16", "YYYY-MM-DD").toString());
     });
 });
@@ -196,7 +196,7 @@ describe('#whitsunMonday', function() {
 describe('#corpusChristi', function() {
 
     it('verifies date of corpus Christi for 2016', function() {
-        bunny.getCorpusChristi(bunny.getEasterSunday(2016))
+        bunny.getCorpusChristi((2016))
             .should.equal(moment("2016-05-26", "YYYY-MM-DD").toString());
     });
 });
@@ -423,5 +423,34 @@ describe('#stStephensDay', function() {
     it('verifies correct error object for invalid year (null)', function() {
         bunny.getStStephensDay(null)
             .should.have.all.keys('error', 'errorCode');
+    });
+});
+
+describe('#allHolidaysOfYear', function() {
+    it('verifies all holidays of 2016', function() {
+        var holidays2016 = {
+            newYear:                new moment("2016-01-01", "YYYY-MM-DD").toString(),
+            epiphany:               new moment("2016-01-06", "YYYY-MM-DD").toString(),
+            roseMonday:             new moment("2016-02-08", "YYYY-MM-DD").toString(),
+            ashWednesday:           new moment("2016-02-10", "YYYY-MM-DD").toString(),
+            goodFriday:             new moment("2016-03-25", "YYYY-MM-DD").toString(),
+            easterSunday:           new moment("2016-03-27", "YYYY-MM-DD").toString(),
+            easterMonday:           new moment("2016-03-28", "YYYY-MM-DD").toString(),
+            mayDay:                 new moment("2016-05-01", "YYYY-MM-DD").toString(),
+            ascensionDay:           new moment("2016-05-05", "YYYY-MM-DD").toString(),
+            whitsunSunday:          new moment("2016-05-15", "YYYY-MM-DD").toString(),
+            whitsunMonday:          new moment("2016-05-16", "YYYY-MM-DD").toString(),
+            corpusChristi:          new moment("2016-05-26", "YYYY-MM-DD").toString(),
+            assumptionDay:          new moment("2016-08-15", "YYYY-MM-DD").toString(),
+            germanUnificationDay:   new moment("2016-10-03", "YYYY-MM-DD").toString(),
+            reformationDay:         new moment("2016-10-31", "YYYY-MM-DD").toString(),
+            allHallows:             new moment("2016-11-01", "YYYY-MM-DD").toString(),
+            dayOfRepentance:        new moment("2016-11-16", "YYYY-MM-DD").toString(),
+            christmasEve:           new moment("2016-12-24", "YYYY-MM-DD").toString(),
+            christmasDay:           new moment("2016-12-25", "YYYY-MM-DD").toString(),
+            stStephensDay:          new moment("2016-12-26", "YYYY-MM-DD").toString()
+        };
+
+        bunny.getAllHolidays(2016).should.deep.equal(holidays2016);
     });
 });

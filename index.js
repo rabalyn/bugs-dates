@@ -92,26 +92,30 @@ var getEpiphany = function(year) {
     }
 }
 
-var getRoseMonday = function(easterSunday) {
+var getRoseMonday = function(year) {
+    var easterSunday = getEasterSunday(year);
     var roseMonday = _addDays(easterSunday, -48);
 
     return moment(roseMonday).toString();
 }
 
-var getAshWednesday = function(easterSunday) {
+var getAshWednesday = function(year) {
+    var easterSunday = getEasterSunday(year);
     var ashWednesday = _addDays(easterSunday, -46);
 
     return moment(ashWednesday).toString();
 }
 
-var getGoodFriday = function(easterSunday) {
+var getGoodFriday = function(year) {
+    var easterSunday = getEasterSunday(year);
     var goodFriday = _addDays(easterSunday, -2);
 
     return moment(goodFriday).toString();
 }
 
-var getEasterMonday = function(date) {
-    var easterMonday = _addDays(date, 1);
+var getEasterMonday = function(year) {
+    var easterSunday = getEasterSunday(year);
+    var easterMonday = _addDays(easterSunday, 1);
     return moment(easterMonday).toString();
 }
 
@@ -137,25 +141,29 @@ var getMayDay = function(year) {
     }
 }
 
-var getAscensionDay = function(easterSunday) {
+var getAscensionDay = function(year) {
+    var easterSunday = getEasterSunday(year);
     var ascensionDay = _addDays(easterSunday, 39);
 
     return moment(ascensionDay).toString();
 }
 
-var getWhitsunSunday = function(easterSunday) {
+var getWhitsunSunday = function(year) {
+    var easterSunday = getEasterSunday(year);
     var whitsunSunday = _addDays(easterSunday, 49);
 
     return moment(whitsunSunday).toString();
 }
 
-var getWhitsunMonday = function(easterSunday) {
+var getWhitsunMonday = function(year) {
+    var easterSunday = getEasterSunday(year);
     var whitsunMonday = _addDays(easterSunday, 50);
 
     return moment(whitsunMonday).toString();
 }
 
-var getCorpusChristi = function(easterSunday) {
+var getCorpusChristi = function(year) {
+    var easterSunday = getEasterSunday(year);
     var corpusChristi = _addDays(easterSunday, 60);
 
     return moment(corpusChristi).toString();
@@ -373,6 +381,33 @@ var getStStephensDay = function(year) {
     }
 }
 
+var getAllHolidays = function(year) {
+    var holidays = {
+        newYear:                getNewYear(2016),
+        epiphany:               getEpiphany(2016),
+        roseMonday:             getRoseMonday(2016),
+        ashWednesday:           getAshWednesday(2016),
+        goodFriday:             getGoodFriday(2016),
+        easterSunday:           getEasterSunday(2016),
+        easterMonday:           getEasterMonday(2016),
+        mayDay:                 getMayDay(2016),
+        ascensionDay:           getAscensionDay(2016),
+        whitsunSunday:          getWhitsunSunday(2016),
+        whitsunMonday:          getWhitsunMonday(2016),
+        corpusChristi:          getCorpusChristi(2016),
+        assumptionDay:          getAssumptionDay(2016),
+        germanUnificationDay:   getGermanUnificationDay(2016),
+        reformationDay:         getReformationDay(2016),
+        allHallows:             getAllHallows(2016),
+        dayOfRepentance:        getDayOfRepentance(2016),
+        christmasEve:           getChristmasEve(2016),
+        christmasDay:           getChristmasDay(2016),
+        stStephensDay:          getStStephensDay(2016)
+    };
+
+    return holidays;
+}
+
 var isRoseMonday = function(date) {
     if( date === null || date === undefined || date === '') {
         return false;
@@ -427,6 +462,7 @@ var isEasterSunday = function(date) {
 **  https://en.wikipedia.org/wiki/Public_holidays_in_Germany
 */
 BugsDates.prototype = {
+    getAllHolidays: getAllHolidays,
     getNewYear : getNewYear,
     getEpiphany: getEpiphany,
     getRoseMonday: getRoseMonday,
