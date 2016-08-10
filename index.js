@@ -51,7 +51,7 @@ var _addDays = function (date, days) {
 }
 
 var getNewYear = function(year) {
-    if( typeof year == "number") {
+    if( typeof year === "number") {
         try {
             var newYear = new moment({
                 year: year,
@@ -73,7 +73,7 @@ var getNewYear = function(year) {
 }
 
 var getEpiphany = function(year) {
-    if( typeof year == "number") {
+    if( typeof year === "number") {
         try {
             var epiphany = new moment({
                 year: year,
@@ -122,7 +122,7 @@ var getEasterMonday = function(year) {
 }
 
 var getMayDay = function(year) {
-    if( typeof year == "number") {
+    if( typeof year === "number") {
         try {
             var mayDay = new moment({
                 year: year,
@@ -197,7 +197,7 @@ var _setDaysOfYear = function(date) {
 }
 
 var getAssumptionDay = function(year) {
-    if( typeof year == "number") {
+    if( typeof year === "number") {
         try {
             var assumptionDay = new moment({
                 year: year,
@@ -219,7 +219,7 @@ var getAssumptionDay = function(year) {
 }
 
 var getGermanUnificationDay = function(year) {
-    if( typeof year == "number") {
+    if( typeof year === "number") {
         try {
             var germanUnificationDay = new moment({
                 year: year,
@@ -241,7 +241,7 @@ var getGermanUnificationDay = function(year) {
 }
 
 var getReformationDay = function(year) {
-    if( typeof year == "number") {
+    if( typeof year === "number") {
         try {
             var reformationDay = new moment({
                 year: year,
@@ -263,7 +263,7 @@ var getReformationDay = function(year) {
 }
 
 var getAllHallows = function(year) {
-    if( typeof year == "number") {
+    if( typeof year === "number") {
         try {
             var allHallows = new moment({
                 year: year,
@@ -291,7 +291,7 @@ var getAllHallows = function(year) {
 **  https://en.wikipedia.org/wiki/Bu%C3%9F-_und_Bettag
 */
 var getDayOfRepentance = function(year) {
-    if( typeof year == "number") {
+    if( typeof year === "number") {
         try {
             var nov23rd = new moment({
                 year: year,
@@ -318,7 +318,7 @@ var getDayOfRepentance = function(year) {
 }
 
 var getChristmasEve = function(year) {
-    if( typeof year == "number") {
+    if( typeof year === "number") {
         try {
             var christmasEve = new moment({
                 year: year,
@@ -340,7 +340,7 @@ var getChristmasEve = function(year) {
 }
 
 var getChristmasDay = function(year) {
-    if( typeof year == "number") {
+    if( typeof year === "number") {
         try {
             var christmasDay = new moment({
                 year: year,
@@ -362,7 +362,7 @@ var getChristmasDay = function(year) {
 }
 
 var getStStephensDay = function(year) {
-    if( typeof year == "number") {
+    if( typeof year === "number") {
         try {
             var stStephensDay = new moment({
                 year: year,
