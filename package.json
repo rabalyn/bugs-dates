@@ -1,6 +1,6 @@
 {
   "name": "bugs-dates",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Get all moveable and non moveable holidays in a given year.",
   "main": "index.js",
   "scripts": {
