@@ -1,287 +1,187 @@
-'use strict';
-
-var moment      = require('moment');
+'use strict'
 
 // Constructor
-var BugsDates = function() {};
+const BugsDates = function() {}
 
-
-var getEasterSunday = function(year) {
+/**
+ * Gets the date of Easter Sunday for a given year using Gauss's Easter algorithm
+ * @param {number} year - The year to calculate Easter Sunday for
+ * @returns {string} ISO string of the Easter Sunday date or error object
+ */
+const getEasterSunday = function(year) {
     /*
     **  Calculate easter sunday by usage of the supplemented
     **  easter calculation by Gauss.
     **  (https://de.wikipedia.org/wiki/Gau%C3%9Fsche_Osterformel#Eine_erg.C3.A4nzte_Osterformel)
     */
-    var a   = year % 19;
-    var k   = parseInt(year / 100);
-    var m   = (15 + parseInt((3 * k + 3) / 4) - parseInt((8 * k + 13) / 25));
-    var d   = ((19 * a + m) % 30);
-    var s   = (2 - parseInt((3 * k + 3) / 4));
-    var r   = parseInt(parseInt(d + a / 11) / 29);
-    var og  = (21 + d - r);
-    var sz  = (7 - (year + parseInt(year / 4) + s) % 7);
-    var oe  = (7 - (og - sz) % 7);
+    const a = year % 19
+    const k = parseInt(year / 100)
+    const m = (15 + parseInt((3 * k + 3) / 4) - parseInt((8 * k + 13) / 25))
+    const d = ((19 * a + m) % 30)
+    const s = (2 - parseInt((3 * k + 3) / 4))
+    const r = parseInt(parseInt(d + a / 11) / 29)
+    const og = (21 + d - r)
+    const sz = (7 - (year + parseInt(year / 4) + s) % 7)
+    const oe = (7 - (og - sz) % 7)
 
     // eastern is the (og+oe)th of march
-    var os      = og + oe;
-    var eastern = _normalizeDate(os, year);
+    const os = og + oe
+    const eastern = _normalizeDate(os, year)
 
-    return eastern;
+    return eastern
 }
 
-var _normalizeDate = function(nthMarch, year) {
-    var day     = nthMarch;
-    var date    = '';
+const _normalizeDate = function(nthMarch, year) {
+    let day = nthMarch
+    let date
 
     if (day <= 31) {
-        date = new moment(year+"-03-"+day, "YYYY-MM-DD");
+        date = new Date(year, 2, day) // March is month 2 in JS Date
     } else {
-        var aprilDay = day % 31;
-        if(aprilDay < 10) aprilDay = "0"+aprilDay;
-        date = new moment(year+"-04-"+aprilDay, "YYYY-MM-DD");
+        let aprilDay = day % 31
+        date = new Date(year, 3, aprilDay) // April is month 3
     }
 
-    return date.toString();
+    return date.toISOString()
 }
 
-var _addDays = function (date, days) {
-    var result = new Date(date);
-    result.setDate(result.getDate() + days);
-    return result;
+const _addDays = function (date, days) {
+    const result = new Date(date)
+    result.setDate(result.getDate() + days)
+    return result
 }
 
-var getNewYear = function(year) {
-    if( typeof year === "number") {
-        try {
-            var newYear = new moment({
-                year: year,
-                day: 1,
-                month: 0
-            });
+const getNewYear = function(year) {
+    if( typeof year !== "number") {
+        return {
+            error: 'invalid year',
+            errorCode: 1
+        }
+    }
+    
+    const newYear = new Date(year, 0, 1)
+    return newYear.toISOString()
+}
 
-            return newYear.toString();
+const getEpiphany = function(year) {
+    if( typeof year !== "number") {
+        return {
+            error: 'invalid year',
+            errorCode: 1
+        }
+    }
+    const epiphany = new Date(year, 0, 6)
+    return epiphany.toISOString()
 
-        } catch (err) {
-            console.log(err);
+}
+
+const getRoseMonday = function(year) {
+    const easterSunday = new Date(getEasterSunday(year))
+    const roseMonday = _addDays(easterSunday, -48)
+    return roseMonday.toISOString()
+}
+
+const getAshWednesday = function(year) {
+    const easterSunday = new Date(getEasterSunday(year))
+    const ashWednesday = _addDays(easterSunday, -46)
+    return ashWednesday.toISOString()
+}
+
+const getGoodFriday = function(year) {
+    const easterSunday = new Date(getEasterSunday(year))
+    const goodFriday = _addDays(easterSunday, -2)
+    return goodFriday.toISOString()
+}
+
+const getEasterMonday = function(year) {
+    const easterSunday = new Date(getEasterSunday(year))
+    const easterMonday = _addDays(easterSunday, 1)
+    return easterMonday.toISOString()
+}
+
+const getMayDay = function(year) {
+    if( typeof year !== "number") {
+        return {
+            error: 'invalid year',
+            errorCode: 1
         }
     }
 
-    return {
-        error: 'invalid year',
-        errorCode: 1
-    }
+    const mayDay = new Date(year, 4, 1)
+    return mayDay.toISOString()
+
 }
 
-var getEpiphany = function(year) {
-    if( typeof year === "number") {
-        try {
-            var epiphany = new moment({
-                year: year,
-                day: 6,
-                month: 0
-            });
+const getAscensionDay = function(year) {
+    const easterSunday = new Date(getEasterSunday(year))
+    const ascensionDay = _addDays(easterSunday, 39)
+    return ascensionDay.toISOString()
+}
 
-            return epiphany.toString();
+const getWhitsunSunday = function(year) {
+    const easterSunday = new Date(getEasterSunday(year))
+    const whitsunSunday = _addDays(easterSunday, 49)
+    return whitsunSunday.toISOString()
+}
 
-        } catch (err) {
-            console.log(err);
+const getWhitsunMonday = function(year) {
+    const easterSunday = new Date(getEasterSunday(year))
+    const whitsunMonday = _addDays(easterSunday, 50)
+    return whitsunMonday.toISOString()
+}
+
+const getCorpusChristi = function(year) {
+    const easterSunday = new Date(getEasterSunday(year))
+    const corpusChristi = _addDays(easterSunday, 60)
+    return corpusChristi.toISOString()
+}
+
+const getAssumptionDay = function(year) {
+    if( typeof year !== "number") {
+        return {
+            error: 'invalid year',
+            errorCode: 1
         }
     }
+    const assumptionDay = new Date(year, 7, 15)
+    return assumptionDay.toISOString()
 
-    return {
-        error: 'invalid year',
-        errorCode: 1
-    }
 }
 
-var getRoseMonday = function(year) {
-    var easterSunday = getEasterSunday(year);
-    var roseMonday = _addDays(easterSunday, -48);
-
-    return moment(roseMonday).toString();
-}
-
-var getAshWednesday = function(year) {
-    var easterSunday = getEasterSunday(year);
-    var ashWednesday = _addDays(easterSunday, -46);
-
-    return moment(ashWednesday).toString();
-}
-
-var getGoodFriday = function(year) {
-    var easterSunday = getEasterSunday(year);
-    var goodFriday = _addDays(easterSunday, -2);
-
-    return moment(goodFriday).toString();
-}
-
-var getEasterMonday = function(year) {
-    var easterSunday = getEasterSunday(year);
-    var easterMonday = _addDays(easterSunday, 1);
-    return moment(easterMonday).toString();
-}
-
-var getMayDay = function(year) {
-    if( typeof year === "number") {
-        try {
-            var mayDay = new moment({
-                year: year,
-                day: 1,
-                month: 4
-            });
-
-            return mayDay.toString();
-
-        } catch (err) {
-            console.log(err);
+const getGermanUnificationDay = function(year) {
+    if( typeof year !== "number") {
+        return {
+            error: 'invalid year',
+            errorCode: 1
         }
     }
-
-    return {
-        error: 'invalid year',
-        errorCode: 1
-    }
+    
+    const germanUnificationDay = new Date(year, 9, 3)
+    return germanUnificationDay.toISOString()
 }
 
-var getAscensionDay = function(year) {
-    var easterSunday = getEasterSunday(year);
-    var ascensionDay = _addDays(easterSunday, 39);
-
-    return moment(ascensionDay).toString();
-}
-
-var getWhitsunSunday = function(year) {
-    var easterSunday = getEasterSunday(year);
-    var whitsunSunday = _addDays(easterSunday, 49);
-
-    return moment(whitsunSunday).toString();
-}
-
-var getWhitsunMonday = function(year) {
-    var easterSunday = getEasterSunday(year);
-    var whitsunMonday = _addDays(easterSunday, 50);
-
-    return moment(whitsunMonday).toString();
-}
-
-var getCorpusChristi = function(year) {
-    var easterSunday = getEasterSunday(year);
-    var corpusChristi = _addDays(easterSunday, 60);
-
-    return moment(corpusChristi).toString();
-}
-
-var _setDaysOfYear = function(date) {
-
-    if( date === null || date === undefined || date === '') {
-        return false;
-    }
-
-    if( ! date._isAMomentObject) {
-        try {
-            date = new Date(date);
-            date = new moment(date)
-        } catch (err) {
-            return false;
-        }
-
-        var roseMondayOfYear = new Date(getRoseMonday(date.year()));
-        roseMondayOfYear = new moment(roseMondayOfYear);
-
-        if(date.month() === roseMondayOfYear.month() && date.date() === roseMondayOfYear.date()) {
-            return true;
+const getReformationDay = function(year) {
+    if( typeof year !== "number") {
+        return {
+            error: 'invalid year',
+            errorCode: 1
         }
     }
-
-    return false;
+    
+    const reformationDay = new Date(year, 9, 31)
+    return reformationDay.toISOString()
 }
 
-var getAssumptionDay = function(year) {
-    if( typeof year === "number") {
-        try {
-            var assumptionDay = new moment({
-                year: year,
-                day: 15,
-                month: 7
-            });
-
-            return assumptionDay.toString();
-
-        } catch (err) {
-            console.log(err);
+const getAllHallows = function(year) {
+    if( typeof year !== "number") {
+        return {
+            error: 'invalid year',
+            errorCode: 1
         }
     }
-
-    return {
-        error: 'invalid year',
-        errorCode: 1
-    }
-}
-
-var getGermanUnificationDay = function(year) {
-    if( typeof year === "number") {
-        try {
-            var germanUnificationDay = new moment({
-                year: year,
-                day: 3,
-                month: 9
-            });
-
-            return germanUnificationDay.toString();
-
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    return {
-        error: 'invalid year',
-        errorCode: 1
-    }
-}
-
-var getReformationDay = function(year) {
-    if( typeof year === "number") {
-        try {
-            var reformationDay = new moment({
-                year: year,
-                day: 31,
-                month: 9
-            });
-
-            return reformationDay.toString();
-
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    return {
-        error: 'invalid year',
-        errorCode: 1
-    }
-}
-
-var getAllHallows = function(year) {
-    if( typeof year === "number") {
-        try {
-            var allHallows = new moment({
-                year: year,
-                day: 1,
-                month: 10
-            });
-
-            return allHallows.toString();
-
-        } catch (err) {
-            console.log(err);
-        }
-    }
-
-    return {
-        error: 'invalid year',
-        errorCode: 1
-    }
+    
+    const allHallows = new Date(year, 10, 1)
+    return allHallows.toISOString()
 }
 
 /*
@@ -290,172 +190,139 @@ var getAllHallows = function(year) {
 **  https://de.wikipedia.org/wiki/Bu%C3%9F-_und_Bettag
 **  https://en.wikipedia.org/wiki/Bu%C3%9F-_und_Bettag
 */
-var getDayOfRepentance = function(year) {
-    if( typeof year === "number") {
-        try {
-            var nov23rd = new moment({
-                year: year,
-                day: 23,
-                month: 10
-            });
-
-            do {
-                var dayOfRepentance = nov23rd.add(-1, "d");
-
-            } while (dayOfRepentance.day() !== 3);
-
-            return dayOfRepentance.toString();
-
-        } catch (err) {
-            console.log(err);
+const getDayOfRepentance = function(year) {
+    if( typeof year !== "number") {
+        return {
+            error: 'invalid year',
+            errorCode: 1
         }
     }
 
-    return {
-        error: 'invalid year',
-        errorCode: 1
-    }
-}
+    const nov23rd = new Date(year, 10, 22)
+    const dayOfWeek = nov23rd.getDay()
 
-var getChristmasEve = function(year) {
-    if( typeof year === "number") {
-        try {
-            var christmasEve = new moment({
-                year: year,
-                day: 24,
-                month: 11
-            });
+    // Calculate days to subtract to reach the previous Wednesday
+    const daysToSubtract = (dayOfWeek + 4) % 7
+    const dayOfRepentance = new Date(year, 10, nov23rd.getDate() - daysToSubtract)
 
-            return christmasEve.toString();
-
-        } catch (err) {
-            console.log(err);
+    if (dayOfRepentance.getDay() !== 3) {
+        return {
+            error: 'invalid day of week',
+            errorCode: 2
         }
     }
 
-    return {
-        error: 'invalid year',
-        errorCode: 1
-    }
+    return dayOfRepentance.toISOString()
 }
 
-var getChristmasDay = function(year) {
-    if( typeof year === "number") {
-        try {
-            var christmasDay = new moment({
-                year: year,
-                day: 25,
-                month: 11
-            });
-
-            return christmasDay.toString();
-
-        } catch (err) {
-            console.log(err);
+const getChristmasEve = function(year) {
+    if( typeof year !== "number") {
+        return {
+            error: 'invalid year',
+            errorCode: 1
         }
     }
 
-    return {
-        error: 'invalid year',
-        errorCode: 1
-    }
+    const christmasEve = new Date(year, 11, 24)
+    return christmasEve.toISOString()
 }
 
-var getStStephensDay = function(year) {
-    if( typeof year === "number") {
-        try {
-            var stStephensDay = new moment({
-                year: year,
-                day: 26,
-                month: 11
-            });
-
-            return stStephensDay.toString();
-
-        } catch (err) {
-            console.log(err);
+const getChristmasDay = function(year) {
+    if( typeof year !== "number") {
+        return {
+            error: 'invalid year',
+            errorCode: 1
         }
     }
+    
+    const christmasDay = new Date(year, 11, 25)
+    return christmasDay.toISOString()
+}
 
-    return {
-        error: 'invalid year',
-        errorCode: 1
+const getStStephensDay = function(year) {
+    if( typeof year !== "number") {
+        return {
+            error: 'invalid year',
+            errorCode: 1
+        }
     }
+    
+    const stStephensDay = new Date(year, 11, 26)
+    return stStephensDay.toISOString()
 }
 
-var getAllHolidays = function(year) {
-    var holidays = {
-        newYear:                getNewYear(2016),
-        epiphany:               getEpiphany(2016),
-        roseMonday:             getRoseMonday(2016),
-        ashWednesday:           getAshWednesday(2016),
-        goodFriday:             getGoodFriday(2016),
-        easterSunday:           getEasterSunday(2016),
-        easterMonday:           getEasterMonday(2016),
-        mayDay:                 getMayDay(2016),
-        ascensionDay:           getAscensionDay(2016),
-        whitsunSunday:          getWhitsunSunday(2016),
-        whitsunMonday:          getWhitsunMonday(2016),
-        corpusChristi:          getCorpusChristi(2016),
-        assumptionDay:          getAssumptionDay(2016),
-        germanUnificationDay:   getGermanUnificationDay(2016),
-        reformationDay:         getReformationDay(2016),
-        allHallows:             getAllHallows(2016),
-        dayOfRepentance:        getDayOfRepentance(2016),
-        christmasEve:           getChristmasEve(2016),
-        christmasDay:           getChristmasDay(2016),
-        stStephensDay:          getStStephensDay(2016)
-    };
+const getAllHolidays = function(year) {
+    const holidays = {
+        newYear:                getNewYear(year),
+        epiphany:               getEpiphany(year),
+        roseMonday:             getRoseMonday(year),
+        ashWednesday:           getAshWednesday(year),
+        goodFriday:             getGoodFriday(year),
+        easterSunday:           getEasterSunday(year),
+        easterMonday:           getEasterMonday(year),
+        mayDay:                 getMayDay(year),
+        ascensionDay:           getAscensionDay(year),
+        whitsunSunday:          getWhitsunSunday(year),
+        whitsunMonday:          getWhitsunMonday(year),
+        corpusChristi:          getCorpusChristi(year),
+        assumptionDay:          getAssumptionDay(year),
+        germanUnificationDay:   getGermanUnificationDay(year),
+        reformationDay:         getReformationDay(year),
+        allHallows:             getAllHallows(year),
+        dayOfRepentance:        getDayOfRepentance(year),
+        christmasEve:           getChristmasEve(year),
+        christmasDay:           getChristmasDay(year),
+        stStephensDay:          getStStephensDay(year)
+    }
 
-    return holidays;
+    return holidays
 }
 
-var isRoseMonday = function(date) {
+const isRoseMonday = function(date) {
     if( date === null || date === undefined || date === '') {
-        return false;
+        return false
     }
 
-    if( ! date._isAMomentObject) {
-        try {
-            date = new Date(date);
-            date = new moment(date)
-        } catch (err) {
-            return false;
+    try {
+        const inputDate = new Date(date)
+        if (isNaN(inputDate.getTime())) {
+            return false
         }
 
-        var roseMondayOfYear = new Date(getRoseMonday(date.year()));
-        roseMondayOfYear = new moment(roseMondayOfYear);
-
-        if(date.month() === roseMondayOfYear.month() && date.date() === roseMondayOfYear.date()) {
-            return true;
+        const roseMondayOfYear = new Date(getRoseMonday(inputDate.getFullYear()))
+        
+        if(inputDate.getMonth() === roseMondayOfYear.getMonth() && 
+           inputDate.getDate() === roseMondayOfYear.getDate()) {
+            return true
         }
+    } catch (err) {
+        return false
     }
 
-    return false;
+    return false
 }
 
-var isEasterSunday = function(date) {
-    if( date !== null && date !== undefined && ! date._isAMomentObject) {
-        try {
-            date = new moment(date, "YYYY-MM-DD");
-        } catch(err) {
-            return false;
+const isEasterSunday = function(date) {
+    if (!date) return false
+
+    try {
+        const inputDate = new Date(date)
+        if (isNaN(inputDate.getTime())) {
+            return false
         }
+
+        const year = inputDate.getFullYear()
+        const easterSundayOfYear = new Date(getEasterSunday(year))
+
+        if (easterSundayOfYear.getMonth() === inputDate.getMonth() &&
+            easterSundayOfYear.getDate() === inputDate.getDate()) {
+            return true
+        }
+    } catch(err) {
+        return false
     }
 
-    if(date && moment.isMoment(date)) {
-        var year                = date.year();
-        var foo                 = new Date(getEasterSunday(year));
-        var easterSundayOfYear  = new moment(foo);
-
-        if( easterSundayOfYear.month() === date.month() &&
-            easterSundayOfYear.date() === date.date() )
-        {
-                return true;
-        }
-    }
-
-    return false;
+    return false
 }
 
 /*
@@ -480,7 +347,7 @@ BugsDates.prototype = {
     getAssumptionDay: getAssumptionDay,
     getGermanUnificationDay: getGermanUnificationDay,
     getReformationDay: getReformationDay,
-    getAllHallows, getAllHallows,
+    getAllHallows: getAllHallows,
     getDayOfRepentance: getDayOfRepentance,
     getChristmasEve: getChristmasEve,
     getChristmasDay: getChristmasDay,
@@ -489,4 +356,4 @@ BugsDates.prototype = {
     isEasterSunday: isEasterSunday
 }
 
-module.exports = BugsDates;
+module.exports = BugsDates
